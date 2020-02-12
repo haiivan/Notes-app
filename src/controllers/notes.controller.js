@@ -16,7 +16,7 @@ notesCrrl.createNote = async (req, res) => {
     date
   });
   await newNote.save();
-  res.json({ message: "User Saved" });
+  res.json({ message: "Note Saved" });
 };
 
 notesCrrl.getNote = async (req, res) => {
@@ -25,18 +25,21 @@ notesCrrl.getNote = async (req, res) => {
 };
 
 notesCrrl.updateNote = async (req, res) => {
-  const { title, author, content } = req.body;
+  try {
+    const { title, author, content } = req.body;
 
-  await NoteModel.findOneAndUpdate(
-    { _id: req.params.id },
-    {
-      title,
-      author,
-      content
-    }
-  );
-
-  res.json({ message: "Update Note" });
+    await NoteModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        title,
+        author,
+        content
+      }
+    );
+    res.json({ message: "Update Note" });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 notesCrrl.deleteNote = async (req, res) => {
